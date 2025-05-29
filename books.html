@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Books - Golden Wolf Cyber Squad</title>
+  <style>
+    body { background-color: #000; color: #FFD700; font-family: Poppins; padding: 30px; }
+    h1 { color: #FFD700; }
+    .book {
+      background: #111;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    a.download {
+      color: #FFD700;
+      text-decoration: underline;
+      display: block;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>📚 Book Downloads</h1>
+
+<input type="text" id="searchInput" placeholder="🔍 Search..." onkeyup="searchItems()" style="width:30%; padding:10px; margin: 10px 0; border-radius: 8px;">
+
+<div id="bookList">Loading books...</div>
+
+<script>
+fetch('data/books.json')
+  .then(response => response.json())
+  .then(books => {
+    const list = document.getElementById('bookList');
+    list.innerHTML = '';
+    books.forEach(book => {
+      const box = document.createElement('div');
+      box.className = 'book';
+      box.innerHTML = `
+        <h3>${book.title}</h3>
+        <a class="download" href="uploads/books/${book.file}" download>⬇ Download PDF</a>
+      `;
+      list.appendChild(box);
+    });
+  })
+  .catch(() => {
+    document.getElementById('bookList').innerText = 'Failed to load books.';
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tools - Golden Wolf Cyber Squad</title>
+  <style>
+    body { background-color: #000; color: #FFD700; font-family: Poppins; padding: 30px; }
+    h1 { color: #FFD700; }
+    .tool { background: #111; margin: 10px 0; padding: 15px; border-radius: 8px; }
+    .paid { color: red; font-weight: bold; }
+    .free { color: green; font-weight: bold; }
+    a.download { color: #FFD700; text-decoration: underline; display: block; margin-top: 5px; }
+  </style>
+</head>
+<body>
+
+<h1>🛠 Software/Tools Download</h1>
+<input type="text" id="searchInput" placeholder="🔍 Search..." onkeyup="searchItems()" style="width:30%; padding:10px; margin: 10px 0; border-radius: 8px;">
+
+<div id="toolList">Loading tools...</div>
+
+<script>
+fetch('data/tools.json')
+  .then(response => response.json())
+  .then(tools => {
+    const list = document.getElementById('toolList');
+    list.innerHTML = '';
+    tools.forEach(tool => {
+      const box = document.createElement('div');
+      box.className = 'tool';
+      box.innerHTML = `
+        <h3>${tool.name}</h3>
+        <p class="${tool.paid ? 'paid' : 'free'}">${tool.paid ? 'Paid Tool' : 'Free Tool'}</p>
+        <a class="download" href="uploads/tools/${tool.file}" download>⬇ Download</a>
+      `;
+      list.appendChild(box);
+    });
+  })
+  .catch(() => {
+    document.getElementById('toolList').innerText = 'Failed to load tools.';
+  });
+</script>
+
+</body>
+</html>
